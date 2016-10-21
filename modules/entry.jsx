@@ -36,13 +36,14 @@ var Select = React.createClass({
             SelectedName:event.target.innerHTML,
             SelectedDate:this.state.BaseDate[event.target.innerHTML]
         });
-        console.log(this.state)
     },
     render:function(){
         var SectionItems = [];
         for(var i in this.state.BaseDate){
             SectionItems.push(<SectionItem key={i} Date={this.state.BaseDate[i]} name={i} />);
         }
+        var SelectedSection;
+        SelectedSection = <SectionItem key={this.state.SelectedName} Date={this.state.SelectedDate} name={this.state.SelectedName} />;
         return(
                 <div>
                     <div className="container">
@@ -51,7 +52,7 @@ var Select = React.createClass({
                     <div id="select-section" className="container">
                         <ReactCSSTransitionGroup
                             transitionName="SectionItem">
-                            <SectionItem Date={this.state.SelectedDate} name={this.state.SelectedName} />
+                            {SelectedSection}
                         </ReactCSSTransitionGroup>
                     </div>
                     <div className="section-all">

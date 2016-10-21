@@ -143,18 +143,18 @@ body{
     opacity: 0.01;
 }
 
-.SectionItem-enter.SectionItem-enter-active {
+.SectionItem-enter-active {
     opacity: 1;
-    transition: opacity 500ms ease-in;
+    transition: all 500ms ease-in;
 }
 
 .SectionItem-leave {
     opacity: 1;
 }
 
-.SectionItem-leave.SectionItem-leave-active {
-    opacity: 0.01;
-    transition: opacity 300ms ease-in;
+.SectionItem-leave-active {
+    opacity: 0;
+    transition: all 1ms;
 }
 .select-item{
     background: #ffffff;

@@ -89,13 +89,14 @@
 	            SelectedName:event.target.innerHTML,
 	            SelectedDate:this.state.BaseDate[event.target.innerHTML]
 	        });
-	        console.log(this.state)
 	    },
 	    render:function(){
 	        var SectionItems = [];
 	        for(var i in this.state.BaseDate){
 	            SectionItems.push(React.createElement(SectionItem, {key: i, Date: this.state.BaseDate[i], name: i}));
 	        }
+	        var SelectedSection;
+	        SelectedSection = React.createElement(SectionItem, {key: this.state.SelectedName, Date: this.state.SelectedDate, name: this.state.SelectedName});
 	        return(
 	                React.createElement("div", null, 
 	                    React.createElement("div", {className: "container"}, 
@@ -104,7 +105,7 @@
 	                    React.createElement("div", {id: "select-section", className: "container"}, 
 	                        React.createElement(ReactCSSTransitionGroup, {
 	                            transitionName: "SectionItem"}, 
-	                            React.createElement(SectionItem, {Date: this.state.SelectedDate, name: this.state.SelectedName})
+	                            SelectedSection
 	                        )
 	                    ), 
 	                    React.createElement("div", {className: "section-all"}, 
