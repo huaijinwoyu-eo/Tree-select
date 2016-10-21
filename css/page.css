@@ -1,6 +1,10 @@
 body{
     background:#ffffff url("../images/tp-bg.jpg") no-repeat 0 0 /100% 605px;
 }
+#select{
+    background: url("../images/loading2.gif") no-repeat center center ;
+    min-height: 300px;
+}
 .rule-title{
     background: url("../images/rule-title.png") no-repeat center center;
     height: 99px;
@@ -126,6 +130,35 @@ body{
     height: 100%;
 }
 /*选择列表*/
+#selected-section{
+    background: #ffffff;
+}
+.section-all{
+    background: #f1f1f1;
+    width: 100%;
+    height: auto;
+}
+/*section-item动画*/
+.SectionItem-enter {
+    opacity: 0.01;
+}
+
+.SectionItem-enter.SectionItem-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.SectionItem-leave {
+    opacity: 1;
+}
+
+.SectionItem-leave.SectionItem-leave-active {
+    opacity: 0.01;
+    transition: opacity 300ms ease-in;
+}
+.select-item{
+    background: #ffffff;
+}
 .select-item li{
     line-height: 45px;
     font-size: 20px;
@@ -189,6 +222,139 @@ body{
     height: 85px;
     overflow: hidden;
     margin-top: 20px;
+}
+/*投票相关*/
+.vote-info{
+    height: 28px;
+    margin-top: 10px;
+}
+.vote-info .fav{
+    height: 28px;
+    line-height: 28px;
+    color: #306f36;
+    font-size: 16px;
+    position: relative;
+    margin-left: 40px;
+}
+.vote-info .fav::before{
+    background: url("../images/fav-ra.png") no-repeat 7px 7px;
+    position: absolute;
+    top: 0;
+    left: -28px;
+    height: 28px;
+    width: 28px;
+    content: '';
+}
+.vote-info .ra-list{
+    height: 28px;
+    line-height: 28px;
+    color: #306f36;
+    font-size: 16px;
+    position: relative;
+    margin-left: 40px;
+}
+.vote-info .ra-list::before{
+    background: url("../images/fav-ra.png") no-repeat -38px 7px;
+    position: absolute;
+    top: 0;
+    left: -28px;
+    height: 28px;
+    width: 28px;
+    content: '';
+}
+.vote-btn{
+    height: 28px;
+    width: 100px;
+    position: relative;
+    background: #b2b2b2;
+    border-radius: 14px;
+    overflow: hidden;
+    margin-left: 220px;
+    float: left;
+}
+.vote-info .vote-btn .btn{
+    height: 22px;
+    width: 22px;
+    border-radius: 100%;
+    background: #ffffff;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+    z-index: 10;
+}
+.vote-info .vote-btn .state1{
+    height: 28px;
+    width: 100px;
+    position: absolute;
+    white-space: nowrap;
+    line-height: 28px;
+    border-radius: 14px;
+    top: 0;
+    left: -100px;
+    color: #ffffff;
+    background: #306f36;
+    text-indent: 22px;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+.vote-info .vote-btn .state2{
+    height: 28px;
+    width: 100px;
+    line-height: 28px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #ffffff;
+    text-indent: 30px;
+    -webkit-transition: all 0.2s;
+    -moz-transition: all 0.2s;
+    -ms-transition: all 0.2s;
+    -o-transition: all 0.2s;
+    transition: all 0.2s;
+}
+
+.vote-info .vote-btn input[type=radio]{
+    height: 25px;
+    width: 50%;
+    position: absolute;
+    display: block;
+    z-index: 100;
+    opacity: 0;
+    cursor: pointer;
+}
+.vote-info .vote-btn input.uncheck{
+    top: 0;
+    left: 0;
+}
+.vote-info .vote-btn input.check{
+    top: 0;
+    right: 0;
+}
+.vote-info .vote-btn input[type=radio]:checked ~ div.btn{
+    left: 3px;
+}
+.vote-btn input[type=radio]:checked ~ div.state1{
+    left: -100px;
+}
+.vote-btn input[type=radio]:checked ~ div.state2{
+    left: 0;
+}
+.vote-info .vote-btn input[type=radio].check:checked ~ div.btn{
+    left: 75px;
+}
+.vote-btn input[type=radio].check:checked ~ div.state1{
+    left: 0;
+}
+.vote-btn input[type=radio].check:checked ~ div.state2{
+    left: 100px;
 }
 /*图片展示*/
 .pic-wrap{
@@ -277,4 +443,11 @@ body{
     font-size: 18px;
     color: #306f36;
     font-weight: bold;
+}
+/*没有数据模块*/
+.noDate{
+    line-height: 300px;
+    text-align: center;
+    font-size: 30px;
+    color: #333333;
 }
