@@ -5,17 +5,20 @@ var Jquery = require("jquery");
 var SelectItems = require("./select-item.jsx");
 //大分类模块
 var SectionItem = require("./section-item.jsx");
+//结果
+var ResultList = require("./result.jsx");
 //动画模块
 var ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 
-
 var Select = React.createClass({
     getInitialState:function(){
-        return{
-            SelectedName:"",
-            SelectedDate:{},
-            BaseDate:{}
+        return {
+            SelectedName: "",
+            SelectedDate: {},
+            BaseDate: {},
+            PostDate: []
         }
+
     },
     HandleGetMessage:function(){
         Jquery.ajax({
@@ -24,6 +27,23 @@ var Select = React.createClass({
             success:function(data){
                 this.setState({
                     BaseDate:data
+                });
+                $(".select-item").css({
+                    marginBottom:0
+                });
+                var D_Height = $(document).height();
+                var S_Height = $(window).innerHeight();
+                $(window).scroll(function(){
+                    if($(window).scrollTop()>1320 && $(window).scrollTop()<D_Height-S_Height){
+                        $(".select-result").css({
+                            position:"fixed",
+                            bottom:"0"
+                        })
+                    }else {
+                        $(".select-result").css({
+                            position:"relative"
+                        })
+                    }
                 })
             }.bind(this),
             error:function(){
@@ -37,13 +57,21 @@ var Select = React.createClass({
             SelectedDate:this.state.BaseDate[event.target.innerHTML]
         });
     },
+    //删除选项方法
+    HandleDelete:function(event){
+
+    },
+    //添加选项方法
+    HandleAdd:function(event){
+        console.log(Jquery(event.target).attr("data-name"))
+    },
     render:function(){
         var SectionItems = [];
         for(var i in this.state.BaseDate){
-            SectionItems.push(<SectionItem key={i} Date={this.state.BaseDate[i]} name={i} />);
+            SectionItems.push(<SectionItem key={i} Date={this.state.BaseDate[i]} name={i} add={this.HandleAdd} remove={this.HandleDelete}/>);
         }
         var SelectedSection;
-        SelectedSection = <SectionItem key={this.state.SelectedName} Date={this.state.SelectedDate} name={this.state.SelectedName} />;
+        SelectedSection = <SectionItem key={this.state.SelectedName} Date={this.state.SelectedDate} name={this.state.SelectedName} add={this.HandleAdd} remove={this.HandleDelete} />;
         return(
                 <div>
                     <div className="container">
@@ -60,13 +88,27 @@ var Select = React.createClass({
                             {SectionItems}
                         </div>
                     </div>
+                    <div className="select-result">
+                        <div className="container">
+                            <div id="result-item" className="clearfix">
+                                <ResultList Date = {this.state.PostDate}/>
+                            </div>
+                            <div className="res-code">
+                                <input type="image" src="images/yanzhenma.png"/>
+                                <input type="text" placeholder="请输入左侧验证码"/>
+                            </div>
+                            <div className="submit">
+                                <a href="#">提交投票</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             )
     },
     componentDidMount:function(){
         setTimeout(function(){
             this.HandleGetMessage()
-        }.bind(this),3000);
+        }.bind(this),2000);
 
     }
 });

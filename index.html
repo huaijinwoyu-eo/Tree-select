@@ -116,7 +116,7 @@
             <!--<li>W-X</li>-->
             <!--<li>Y-Z</li>-->
         <!--</ul>-->
-        <div id="selected-section">
+        <div id="selected-section" class="container">
             <div class="section-item">
                 <div class="section-title">C-D</div>
                 <div class="tree-item">
@@ -314,7 +314,27 @@
             </div>
         </div>
 
-
+        <div class="select-result">
+            <div class="container">
+                <div id="result-item" class="clearfix">
+                   <div class="item">
+                       <div class="img">
+                           <img src="images/tree.png" alt="">
+                       </div>
+                        <div class="name">
+                            银杏 Ginkgo biloba Linn.dddddd
+                        </div>
+                   </div>
+                </div>
+                <div class="res-code">
+                    <input type="image" src="images/yanzhenma.png"/>
+                    <input type="text" placeholder="请输入左侧验证码"/>
+                </div>
+                <div class="submit">
+                    <a href="#">提交投票</a>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="pic-wrap">
         <!--遮罩层图片展示-->
@@ -374,7 +394,19 @@
             nav:true,
             navText:"",
             loop:true
-        })
+        });
+//        $(window).scroll(function(){
+//            if($(window).scrollTop()>1320 && $(window).scrollTop()<$(document).height()-$(window).innerHeight()){
+//                $(".select-result").css({
+//                    position:"fixed",
+//                    bottom:"0"
+//                })
+//            }else {
+//                $(".select-result").css({
+//                    position:"relative"
+//                })
+//            }
+//        })
     </script>
 </body>
 </html>

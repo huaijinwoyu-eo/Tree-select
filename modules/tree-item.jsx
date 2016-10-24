@@ -40,8 +40,8 @@ var TreeItem=React.createClass({
                     </div>
                     <div className="vote-info clearfix">
                         <form className="vote-btn">
-                            <input type="radio" name="check" className="uncheck"/>
-                            <input type="radio" name="check" className="check"/>
+                            <input type="radio" name="check" className="uncheck" data-id={this.props.Date.id} data-name={this.props.Date.name} data-src={this.props.Date.picList[0]} onChange={this.props.remove}/>
+                            <input type="radio" name="check" className="check" data-id={this.props.Date.id} data-name={this.props.Date.name} data-src={this.props.Date.picList[0]}  onChange={this.props.add}/>
                             <div className="state1 dib">已投票</div>
                             <div className="state2 dib">为Ta投票</div>
                             <div className="btn"></div>

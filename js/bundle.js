@@ -58,17 +58,20 @@
 	var SelectItems = __webpack_require__(174);
 	//大分类模块
 	var SectionItem = __webpack_require__(175);
+	//结果
+	var ResultList = __webpack_require__(178);
 	//动画模块
-	var ReactCSSTransitionGroup = __webpack_require__(178);
-
+	var ReactCSSTransitionGroup = __webpack_require__(179);
 
 	var Select = React.createClass({displayName: "Select",
 	    getInitialState:function(){
-	        return{
-	            SelectedName:"",
-	            SelectedDate:{},
-	            BaseDate:{}
+	        return {
+	            SelectedName: "",
+	            SelectedDate: {},
+	            BaseDate: {},
+	            PostDate: []
 	        }
+
 	    },
 	    HandleGetMessage:function(){
 	        Jquery.ajax({
@@ -77,6 +80,23 @@
 	            success:function(data){
 	                this.setState({
 	                    BaseDate:data
+	                });
+	                $(".select-item").css({
+	                    marginBottom:0
+	                });
+	                var D_Height = $(document).height();
+	                var S_Height = $(window).innerHeight();
+	                $(window).scroll(function(){
+	                    if($(window).scrollTop()>1320 && $(window).scrollTop()<D_Height-S_Height){
+	                        $(".select-result").css({
+	                            position:"fixed",
+	                            bottom:"0"
+	                        })
+	                    }else {
+	                        $(".select-result").css({
+	                            position:"relative"
+	                        })
+	                    }
 	                })
 	            }.bind(this),
 	            error:function(){
@@ -90,13 +110,21 @@
 	            SelectedDate:this.state.BaseDate[event.target.innerHTML]
 	        });
 	    },
+	    //删除选项方法
+	    HandleDelete:function(event){
+
+	    },
+	    //添加选项方法
+	    HandleAdd:function(event){
+	        console.log(Jquery(event.target).attr("data-name"))
+	    },
 	    render:function(){
 	        var SectionItems = [];
 	        for(var i in this.state.BaseDate){
-	            SectionItems.push(React.createElement(SectionItem, {key: i, Date: this.state.BaseDate[i], name: i}));
+	            SectionItems.push(React.createElement(SectionItem, {key: i, Date: this.state.BaseDate[i], name: i, add: this.HandleAdd, remove: this.HandleDelete}));
 	        }
 	        var SelectedSection;
-	        SelectedSection = React.createElement(SectionItem, {key: this.state.SelectedName, Date: this.state.SelectedDate, name: this.state.SelectedName});
+	        SelectedSection = React.createElement(SectionItem, {key: this.state.SelectedName, Date: this.state.SelectedDate, name: this.state.SelectedName, add: this.HandleAdd, remove: this.HandleDelete});
 	        return(
 	                React.createElement("div", null, 
 	                    React.createElement("div", {className: "container"}, 
@@ -112,6 +140,20 @@
 	                        React.createElement("div", {className: "container"}, 
 	                            SectionItems
 	                        )
+	                    ), 
+	                    React.createElement("div", {className: "select-result"}, 
+	                        React.createElement("div", {className: "container"}, 
+	                            React.createElement("div", {id: "result-item", className: "clearfix"}, 
+	                                React.createElement(ResultList, {Date: this.state.PostDate})
+	                            ), 
+	                            React.createElement("div", {className: "res-code"}, 
+	                                React.createElement("input", {type: "image", src: "images/yanzhenma.png"}), 
+	                                React.createElement("input", {type: "text", placeholder: "请输入左侧验证码"})
+	                            ), 
+	                            React.createElement("div", {className: "submit"}, 
+	                                React.createElement("a", {href: "#"}, "提交投票")
+	                            )
+	                        )
 	                    )
 	                )
 	            )
@@ -119,7 +161,7 @@
 	    componentDidMount:function(){
 	        setTimeout(function(){
 	            this.HandleGetMessage()
-	        }.bind(this),3000);
+	        }.bind(this),2000);
 
 	    }
 	});
@@ -31779,13 +31821,15 @@
 	            TreeItems.push(React.createElement(NoDate, {key: Math.random(), Date: "该区间没有相应数据……"}));
 	        }else {
 	            for (var i in this.props.Date){
-	                TreeItems.push(React.createElement(TreeItem, {key: i, Date: this.props.Date[i]}))
+	                TreeItems.push(React.createElement(TreeItem, {key: i, Date: this.props.Date[i], add: this.props.add, remove: this.props.remove}))
 	            }
 	        }
 	        return(
 	            React.createElement("div", {className: "section-item"}, 
 	                this.props.name?React.createElement("div", {className: "section-title"}, this.props.name):"", 
+
 	                TreeItems
+
 	            )
 	        )
 	    }
@@ -31838,8 +31882,8 @@
 	                    ), 
 	                    React.createElement("div", {className: "vote-info clearfix"}, 
 	                        React.createElement("form", {className: "vote-btn"}, 
-	                            React.createElement("input", {type: "radio", name: "check", className: "uncheck"}), 
-	                            React.createElement("input", {type: "radio", name: "check", className: "check"}), 
+	                            React.createElement("input", {type: "radio", name: "check", className: "uncheck", "data-id": this.props.Date.id, "data-name": this.props.Date.name, "data-src": this.props.Date.picList[0], onChange: this.props.remove}), 
+	                            React.createElement("input", {type: "radio", name: "check", className: "check", "data-id": this.props.Date.id, "data-name": this.props.Date.name, "data-src": this.props.Date.picList[0], onChange: this.props.add}), 
 	                            React.createElement("div", {className: "state1 dib"}, "已投票"), 
 	                            React.createElement("div", {className: "state2 dib"}, "为Ta投票"), 
 	                            React.createElement("div", {className: "btn"})
@@ -31877,10 +31921,35 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(179);
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(35);
+
+	var ResultList = React.createClass({displayName: "ResultList",
+	    render:function(){
+	        return(
+	            React.createElement("div", null, 
+	                React.createElement("div", {className: "item"}, 
+	                    React.createElement("div", {className: "img"}, 
+	                        React.createElement("img", {src: "images/tree.png", alt: ""})
+	                    ), 
+	                    React.createElement("div", {className: "name"}, 
+	                        "银杏 Ginkgo biloba Linn.dddddd"
+	                    )
+	                )
+	            )
+	        )
+	    }
+	});
+	module.exports = ResultList;
 
 /***/ },
 /* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(180);
+
+/***/ },
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31900,8 +31969,8 @@
 
 	var React = __webpack_require__(3);
 
-	var ReactTransitionGroup = __webpack_require__(180);
-	var ReactCSSTransitionGroupChild = __webpack_require__(182);
+	var ReactTransitionGroup = __webpack_require__(181);
+	var ReactCSSTransitionGroupChild = __webpack_require__(183);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -31972,7 +32041,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31992,7 +32061,7 @@
 
 	var React = __webpack_require__(3);
 	var ReactInstanceMap = __webpack_require__(120);
-	var ReactTransitionChildMapping = __webpack_require__(181);
+	var ReactTransitionChildMapping = __webpack_require__(182);
 
 	var emptyFunction = __webpack_require__(13);
 
@@ -32224,7 +32293,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32333,7 +32402,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32352,8 +32421,8 @@
 	var React = __webpack_require__(3);
 	var ReactDOM = __webpack_require__(36);
 
-	var CSSCore = __webpack_require__(183);
-	var ReactTransitionEvents = __webpack_require__(184);
+	var CSSCore = __webpack_require__(184);
+	var ReactTransitionEvents = __webpack_require__(185);
 
 	var onlyChild = __webpack_require__(34);
 
@@ -32505,7 +32574,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -32632,7 +32701,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
