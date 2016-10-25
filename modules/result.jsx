@@ -1,6 +1,8 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 var ResultItem = require("./result-item.jsx");
+//动画模块
+var ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 var ResultList = React.createClass({
     render:function(){
         var List = [];
@@ -9,7 +11,9 @@ var ResultList = React.createClass({
         }.bind(this));
         return(
             <div>
-                {List}
+                <ReactCSSTransitionGroup transitionName="SectionItem">
+                    {List}
+                </ReactCSSTransitionGroup>
             </div>
         )
     }

@@ -11,6 +11,7 @@ var ResultList = require("./result.jsx");
 var ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 
 var Select = React.createClass({
+    //属性初始化
     getInitialState:function(){
         return {
             check1:true,
@@ -22,10 +23,12 @@ var Select = React.createClass({
         }
 
     },
+    //获取数据
     HandleGetMessage:function(){
         Jquery.ajax({
             type:"GET",
             url:"./test.json",
+            cache: false,
             success:function(data){
                 this.setState({
                     BaseDate:data
@@ -53,6 +56,7 @@ var Select = React.createClass({
             }
         });
     },
+    //选择按钮
     HandleClick:function(event){
         this.setState({
             SelectedName:event.target.innerHTML,
@@ -133,6 +137,7 @@ var Select = React.createClass({
             }
         }
     },
+    //渲染
     render:function(){
         var SectionItems = [];
         for(var i in this.state.BaseDate){
@@ -173,6 +178,7 @@ var Select = React.createClass({
                 </div>
             )
     },
+    //模块加载完之后执行的函数
     componentDidMount:function(){
         setTimeout(function(){
             this.HandleGetMessage()

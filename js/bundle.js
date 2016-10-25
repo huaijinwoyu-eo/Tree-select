@@ -64,6 +64,7 @@
 	var ReactCSSTransitionGroup = __webpack_require__(180);
 
 	var Select = React.createClass({displayName: "Select",
+	    //属性初始化
 	    getInitialState:function(){
 	        return {
 	            check1:true,
@@ -75,10 +76,12 @@
 	        }
 
 	    },
+	    //获取数据
 	    HandleGetMessage:function(){
 	        Jquery.ajax({
 	            type:"GET",
 	            url:"./test.json",
+	            cache: false,
 	            success:function(data){
 	                this.setState({
 	                    BaseDate:data
@@ -106,6 +109,7 @@
 	            }
 	        });
 	    },
+	    //选择按钮
 	    HandleClick:function(event){
 	        this.setState({
 	            SelectedName:event.target.innerHTML,
@@ -186,6 +190,7 @@
 	            }
 	        }
 	    },
+	    //渲染
 	    render:function(){
 	        var SectionItems = [];
 	        for(var i in this.state.BaseDate){
@@ -226,6 +231,7 @@
 	                )
 	            )
 	    },
+	    //模块加载完之后执行的函数
 	    componentDidMount:function(){
 	        setTimeout(function(){
 	            this.HandleGetMessage()
@@ -31950,8 +31956,8 @@
 	                    ), 
 	                    React.createElement("div", {className: "vote-info clearfix"}, 
 	                        React.createElement("form", {className: "vote-btn"}, 
-	                            React.createElement("input", {type: "radio", name: "check", className: "uncheck", "data-id": this.props.Date.id, "data-name": this.props.Date.name, "data-src": this.props.Date.picList[0], onChange: this.props.remove}), 
-	                            React.createElement("input", {type: "radio", name: "check", className: "check", "data-id": this.props.Date.id, "data-name": this.props.Date.name, "data-src": this.props.Date.picList[0], onChange: this.props.add}), 
+	                            React.createElement("input", {type: "radio", name: "check", className: "uncheck", "data-id": this.props.Date.code, "data-name": this.props.Date.name, "data-src": this.props.Date.picList[0], onChange: this.props.remove}), 
+	                            React.createElement("input", {type: "radio", name: "check", className: "check", "data-id": this.props.Date.code, "data-name": this.props.Date.name, "data-src": this.props.Date.picList[0], onChange: this.props.add}), 
 	                            React.createElement("div", {className: "state1 dib"}, "已投票"), 
 	                            React.createElement("div", {className: "state2 dib"}, "为Ta投票"), 
 	                            React.createElement("div", {className: "btn"})
@@ -31992,6 +31998,8 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(35);
 	var ResultItem = __webpack_require__(179);
+	//动画模块
+	var ReactCSSTransitionGroup = __webpack_require__(180);
 	var ResultList = React.createClass({displayName: "ResultList",
 	    render:function(){
 	        var List = [];
@@ -32000,7 +32008,9 @@
 	        }.bind(this));
 	        return(
 	            React.createElement("div", null, 
-	                List
+	                React.createElement(ReactCSSTransitionGroup, {transitionName: "SectionItem"}, 
+	                    List
+	                )
 	            )
 	        )
 	    }
