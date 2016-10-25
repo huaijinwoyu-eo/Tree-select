@@ -61,11 +61,13 @@
 	//结果
 	var ResultList = __webpack_require__(178);
 	//动画模块
-	var ReactCSSTransitionGroup = __webpack_require__(179);
+	var ReactCSSTransitionGroup = __webpack_require__(180);
 
 	var Select = React.createClass({displayName: "Select",
 	    getInitialState:function(){
 	        return {
+	            check1:true,
+	            check2:false,
 	            SelectedName: "",
 	            SelectedDate: {},
 	            BaseDate: {},
@@ -112,11 +114,77 @@
 	    },
 	    //删除选项方法
 	    HandleDelete:function(event){
-
+	        this.setState({
+	            check1:event.target.checked,
+	            check2:false
+	        },function(){
+	            console.log("second+check1:",this.state.check1);
+	            console.log("second+check2:",this.state.check2);
+	        });
+	        this.setState({
+	            check1:true,
+	            check2:false
+	        });
+	        var CheckId = Jquery(event.target).attr("data-id");
+	        var Name = Jquery(event.target).attr("data-name");
+	        for(var i=0; i<this.state.PostDate.length; i++){
+	            if(this.state.PostDate[i].id===CheckId){
+	                var temp = this.state.PostDate;
+	                temp.splice(i,1);
+	                Jquery(".tree-item .name").each(function(){
+	                     if(Jquery(this).text()===Name){
+	                         Jquery(this).parent().parent().parent().find(".uncheck").trigger("click");
+	                     }
+	                });
+	                console.log("temp",temp);
+	                console.log("state",this.state.PostDate);
+	            }
+	        }
 	    },
 	    //添加选项方法
 	    HandleAdd:function(event){
-	        console.log(Jquery(event.target).attr("data-name"))
+	        if(event.target.checked!==this.state.check2){
+	            this.setState({
+	                check2:event.target.checked,
+	                check1:false
+	            },function(){
+	                console.log("second+check1:",this.state.check1);
+	                console.log("second+check2:",this.state.check2);
+	            });
+	            this.setState({
+	                check1:true,
+	                check2:false
+	            });
+	            if(this.state.PostDate.length<10){
+	                console.log(this.state.PostDate.length);
+	                var flag = true;
+	                for(var i=0; i<this.state.PostDate.length; i++){
+	                    if(this.state.PostDate[i].id===Jquery(event.target).attr("data-id")){
+	                        flag=false;
+	                        break;
+	                    }else {
+	                        flag=true;
+	                    }
+	                }
+	                if(flag){
+	                    var CheckId = Jquery(event.target).attr("data-id");
+	                    var CheckName = Jquery(event.target).attr("data-name");
+	                    var CheckSrc = Jquery(event.target).attr("data-src");
+	                    var temp = this.state.PostDate;
+	                    var tempObject = {
+	                        id:CheckId,
+	                        name:CheckName,
+	                        src:CheckSrc
+	                    };
+	                    temp.push(tempObject);
+	                    this.setState({
+	                        PostDate:temp
+	                    });
+	                }
+	            }else {
+	                alert("只允许选择10个。")
+	            }
+	        }
 	    },
 	    render:function(){
 	        var SectionItems = [];
@@ -144,7 +212,7 @@
 	                    React.createElement("div", {className: "select-result"}, 
 	                        React.createElement("div", {className: "container"}, 
 	                            React.createElement("div", {id: "result-item", className: "clearfix"}, 
-	                                React.createElement(ResultList, {Date: this.state.PostDate})
+	                                React.createElement(ResultList, {Date: this.state.PostDate, remove: this.HandleDelete})
 	                            ), 
 	                            React.createElement("div", {className: "res-code"}, 
 	                                React.createElement("input", {type: "image", src: "images/yanzhenma.png"}), 
@@ -31923,19 +31991,16 @@
 
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(35);
-
+	var ResultItem = __webpack_require__(179);
 	var ResultList = React.createClass({displayName: "ResultList",
 	    render:function(){
+	        var List = [];
+	        this.props.Date.map(function(item){
+	             List.push(React.createElement(ResultItem, {key: item.id, src: item.src, name: item.name, id: item.id, remove: this.props.remove}));
+	        }.bind(this));
 	        return(
 	            React.createElement("div", null, 
-	                React.createElement("div", {className: "item"}, 
-	                    React.createElement("div", {className: "img"}, 
-	                        React.createElement("img", {src: "images/tree.png", alt: ""})
-	                    ), 
-	                    React.createElement("div", {className: "name"}, 
-	                        "银杏 Ginkgo biloba Linn.dddddd"
-	                    )
-	                )
+	                List
 	            )
 	        )
 	    }
@@ -31946,10 +32011,35 @@
 /* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(180);
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(35);
+
+	var ResultItem = React.createClass({displayName: "ResultItem",
+	    render:function(){
+	        return(
+	            React.createElement("div", {className: "item"}, 
+	                React.createElement("div", {className: "img"}, 
+	                    React.createElement("div", {"data-id": this.props.id, "data-name": this.props.name, className: "close", onClick: this.props.remove}, "X"), 
+	                    React.createElement("div", {className: "tag"}, "已选"), 
+	                    React.createElement("img", {src: this.props.src, alt: ""})
+	                ), 
+	                React.createElement("div", {className: "name"}, 
+	                    this.props.name
+	                )
+	            )
+	        )
+	    }
+	});
+	module.exports = ResultItem;
 
 /***/ },
 /* 180 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(181);
+
+/***/ },
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31969,8 +32059,8 @@
 
 	var React = __webpack_require__(3);
 
-	var ReactTransitionGroup = __webpack_require__(181);
-	var ReactCSSTransitionGroupChild = __webpack_require__(183);
+	var ReactTransitionGroup = __webpack_require__(182);
+	var ReactCSSTransitionGroupChild = __webpack_require__(184);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -32041,7 +32131,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 181 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32061,7 +32151,7 @@
 
 	var React = __webpack_require__(3);
 	var ReactInstanceMap = __webpack_require__(120);
-	var ReactTransitionChildMapping = __webpack_require__(182);
+	var ReactTransitionChildMapping = __webpack_require__(183);
 
 	var emptyFunction = __webpack_require__(13);
 
@@ -32293,7 +32383,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 182 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32402,7 +32492,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 183 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32421,8 +32511,8 @@
 	var React = __webpack_require__(3);
 	var ReactDOM = __webpack_require__(36);
 
-	var CSSCore = __webpack_require__(184);
-	var ReactTransitionEvents = __webpack_require__(185);
+	var CSSCore = __webpack_require__(185);
+	var ReactTransitionEvents = __webpack_require__(186);
 
 	var onlyChild = __webpack_require__(34);
 
@@ -32574,7 +32664,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 184 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -32701,7 +32791,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 185 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**

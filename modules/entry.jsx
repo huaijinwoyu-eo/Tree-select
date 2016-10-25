@@ -13,6 +13,8 @@ var ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 var Select = React.createClass({
     getInitialState:function(){
         return {
+            check1:true,
+            check2:false,
             SelectedName: "",
             SelectedDate: {},
             BaseDate: {},
@@ -59,11 +61,77 @@ var Select = React.createClass({
     },
     //删除选项方法
     HandleDelete:function(event){
-
+        this.setState({
+            check1:event.target.checked,
+            check2:false
+        },function(){
+            console.log("second+check1:",this.state.check1);
+            console.log("second+check2:",this.state.check2);
+        });
+        this.setState({
+            check1:true,
+            check2:false
+        });
+        var CheckId = Jquery(event.target).attr("data-id");
+        var Name = Jquery(event.target).attr("data-name");
+        for(var i=0; i<this.state.PostDate.length; i++){
+            if(this.state.PostDate[i].id===CheckId){
+                var temp = this.state.PostDate;
+                temp.splice(i,1);
+                Jquery(".tree-item .name").each(function(){
+                     if(Jquery(this).text()===Name){
+                         Jquery(this).parent().parent().parent().find(".uncheck").trigger("click");
+                     }
+                });
+                console.log("temp",temp);
+                console.log("state",this.state.PostDate);
+            }
+        }
     },
     //添加选项方法
     HandleAdd:function(event){
-        console.log(Jquery(event.target).attr("data-name"))
+        if(event.target.checked!==this.state.check2){
+            this.setState({
+                check2:event.target.checked,
+                check1:false
+            },function(){
+                console.log("second+check1:",this.state.check1);
+                console.log("second+check2:",this.state.check2);
+            });
+            this.setState({
+                check1:true,
+                check2:false
+            });
+            if(this.state.PostDate.length<10){
+                console.log(this.state.PostDate.length);
+                var flag = true;
+                for(var i=0; i<this.state.PostDate.length; i++){
+                    if(this.state.PostDate[i].id===Jquery(event.target).attr("data-id")){
+                        flag=false;
+                        break;
+                    }else {
+                        flag=true;
+                    }
+                }
+                if(flag){
+                    var CheckId = Jquery(event.target).attr("data-id");
+                    var CheckName = Jquery(event.target).attr("data-name");
+                    var CheckSrc = Jquery(event.target).attr("data-src");
+                    var temp = this.state.PostDate;
+                    var tempObject = {
+                        id:CheckId,
+                        name:CheckName,
+                        src:CheckSrc
+                    };
+                    temp.push(tempObject);
+                    this.setState({
+                        PostDate:temp
+                    });
+                }
+            }else {
+                alert("只允许选择10个。")
+            }
+        }
     },
     render:function(){
         var SectionItems = [];
@@ -91,7 +159,7 @@ var Select = React.createClass({
                     <div className="select-result">
                         <div className="container">
                             <div id="result-item" className="clearfix">
-                                <ResultList Date = {this.state.PostDate}/>
+                                <ResultList Date = {this.state.PostDate} remove={this.HandleDelete}/>
                             </div>
                             <div className="res-code">
                                 <input type="image" src="images/yanzhenma.png"/>
