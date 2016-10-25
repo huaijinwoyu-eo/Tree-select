@@ -181,6 +181,11 @@
 	                        src:CheckSrc
 	                    };
 	                    temp.push(tempObject);
+	                    Jquery(".tree-item .info .name").each(function(){
+	                        if(Jquery(this).text()===CheckName){
+	                            Jquery(this).parent().parent().parent().find(".check").trigger("click");
+	                        }
+	                    });
 	                    this.setState({
 	                        PostDate:temp
 	                    });
@@ -197,7 +202,7 @@
 	            SectionItems.push(React.createElement(SectionItem, {key: i, Date: this.state.BaseDate[i], name: i, add: this.HandleAdd, remove: this.HandleDelete}));
 	        }
 	        var SelectedSection;
-	        SelectedSection = React.createElement(SectionItem, {key: this.state.SelectedName, Date: this.state.SelectedDate, name: this.state.SelectedName, add: this.HandleAdd, remove: this.HandleDelete});
+	        SelectedSection = React.createElement(SectionItem, {key: this.state.SelectedName, checkDate: this.state.PostDate, Date: this.state.SelectedDate, name: this.state.SelectedName, add: this.HandleAdd, remove: this.HandleDelete});
 	        return(
 	                React.createElement("div", null, 
 	                    React.createElement("div", {className: "container"}, 
@@ -31887,6 +31892,7 @@
 	var ReactDOM = __webpack_require__(35);
 	var TreeItem = __webpack_require__(176);
 	var NoDate = __webpack_require__(177);
+	var Jquery = __webpack_require__(173);
 	var SectionItem = React.createClass({displayName: "SectionItem",
 	    render:function(){
 	        var TreeItems = [];

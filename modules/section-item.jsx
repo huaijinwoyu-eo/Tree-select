@@ -2,6 +2,7 @@ var React = require("react");
 var ReactDOM = require("react-dom");
 var TreeItem = require("./tree-item.jsx");
 var NoDate = require("./noDate.jsx");
+var Jquery = require("jquery");
 var SectionItem = React.createClass({
     render:function(){
         var TreeItems = [];

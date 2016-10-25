@@ -128,6 +128,11 @@ var Select = React.createClass({
                         src:CheckSrc
                     };
                     temp.push(tempObject);
+                    Jquery(".tree-item .info .name").each(function(){
+                        if(Jquery(this).text()===CheckName){
+                            Jquery(this).parent().parent().parent().find(".check").trigger("click");
+                        }
+                    });
                     this.setState({
                         PostDate:temp
                     });
@@ -144,7 +149,7 @@ var Select = React.createClass({
             SectionItems.push(<SectionItem key={i} Date={this.state.BaseDate[i]} name={i} add={this.HandleAdd} remove={this.HandleDelete}/>);
         }
         var SelectedSection;
-        SelectedSection = <SectionItem key={this.state.SelectedName} Date={this.state.SelectedDate} name={this.state.SelectedName} add={this.HandleAdd} remove={this.HandleDelete} />;
+        SelectedSection = <SectionItem key={this.state.SelectedName} checkDate={this.state.PostDate} Date={this.state.SelectedDate} name={this.state.SelectedName} add={this.HandleAdd} remove={this.HandleDelete} />;
         return(
                 <div>
                     <div className="container">
