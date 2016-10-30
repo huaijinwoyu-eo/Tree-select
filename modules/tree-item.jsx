@@ -1,12 +1,14 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
+//图片列表
+var TreePic = require("./tree-pic-wrap");
 var TreeItem=React.createClass({
     render:function(){
         return(
             <div className="tree-item">
                 <div className="base-info">
                     <div className="clearfix">
-                        <img src={this.props.Date.picList[0]} alt="" className="fl top"/>
+                        <img onClick={this.HandleClick} src={this.props.Date.picList[0]} alt="" className="fl top"/>
                         <div className="info">
                             <p className="name">{this.props.Date.name}</p>
                             <p>
@@ -52,6 +54,12 @@ var TreeItem=React.createClass({
                 </div>
             </div>
         );
+    },
+    HandleClick:function () {
+        ReactDOM.render(
+            <TreePic Date={this.props.Date}/>,
+            document.getElementById("pic-wrap")
+        )
     }
 });
 

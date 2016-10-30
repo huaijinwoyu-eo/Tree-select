@@ -7,6 +7,7 @@ var SelectItems = require("./select-item.jsx");
 var SectionItem = require("./section-item.jsx");
 //结果
 var ResultList = require("./result.jsx");
+
 //动画模块
 var ReactCSSTransitionGroup = require("react-addons-css-transition-group");
 

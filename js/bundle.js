@@ -59,9 +59,10 @@
 	//大分类模块
 	var SectionItem = __webpack_require__(175);
 	//结果
-	var ResultList = __webpack_require__(178);
+	var ResultList = __webpack_require__(180);
+
 	//动画模块
-	var ReactCSSTransitionGroup = __webpack_require__(180);
+	var ReactCSSTransitionGroup = __webpack_require__(182);
 
 	var Select = React.createClass({displayName: "Select",
 	    //属性初始化
@@ -31891,7 +31892,7 @@
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(35);
 	var TreeItem = __webpack_require__(176);
-	var NoDate = __webpack_require__(177);
+	var NoDate = __webpack_require__(179);
 	var Jquery = __webpack_require__(173);
 	var SectionItem = React.createClass({displayName: "SectionItem",
 	    render:function(){
@@ -31922,13 +31923,15 @@
 
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(35);
+	//图片列表
+	var TreePic = __webpack_require__(177);
 	var TreeItem=React.createClass({displayName: "TreeItem",
 	    render:function(){
 	        return(
 	            React.createElement("div", {className: "tree-item"}, 
 	                React.createElement("div", {className: "base-info"}, 
 	                    React.createElement("div", {className: "clearfix"}, 
-	                        React.createElement("img", {src: this.props.Date.picList[0], alt: "", className: "fl top"}), 
+	                        React.createElement("img", {onClick: this.HandleClick, src: this.props.Date.picList[0], alt: "", className: "fl top"}), 
 	                        React.createElement("div", {className: "info"}, 
 	                            React.createElement("p", {className: "name"}, this.props.Date.name), 
 	                            React.createElement("p", null, 
@@ -31974,6 +31977,12 @@
 	                )
 	            )
 	        );
+	    },
+	    HandleClick:function () {
+	        ReactDOM.render(
+	            React.createElement(TreePic, {Date: this.props.Date}),
+	            document.getElementById("pic-wrap")
+	        )
 	    }
 	});
 
@@ -31981,6 +31990,88 @@
 
 /***/ },
 /* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(35);
+	var Img = __webpack_require__(178);
+	var TreePic = React.createClass({displayName: "TreePic",
+	    render:function(){
+	        var Imgs = [];
+	        for(var i =0;i<this.props.Date.picList.length;i++){
+	           Imgs.push(React.createElement(Img, {src: this.props.Date.picList[i]}))
+	        }
+	        return(
+	            React.createElement("div", {className: "pic-wrap"}, 
+	                React.createElement("div", {onClick: this.HandleClick, className: "close-btn"}, "X"), 
+	                React.createElement("div", {className: "container"}, 
+	                    React.createElement("div", {className: "pic-list"}, 
+	                        Imgs
+	                    ), 
+	                    React.createElement("div", {className: "info"}, 
+	                        React.createElement("p", {className: "name"}, this.props.Date.name), 
+	                        React.createElement("p", null, 
+	                            React.createElement("span", null, "树龄："), 
+	                            React.createElement("span", null, this.props.Date.age)
+	                        ), 
+	                        React.createElement("p", null, 
+	                            React.createElement("span", null, "胸（地）围："), 
+	                            React.createElement("span", null, this.props.Date.around)
+	                        ), 
+	                        React.createElement("p", null, 
+	                            React.createElement("span", null, "树高："), 
+	                            React.createElement("span", null, this.props.Date.height)
+	                        ), 
+	                        React.createElement("p", null, 
+	                            React.createElement("span", null, "冠幅（平均）："), 
+	                            React.createElement("span", null, this.props.Date.haround)
+	                        ), 
+	                        React.createElement("p", null, 
+	                            React.createElement("span", null, "树木综合积点："), 
+	                            React.createElement("span", null, this.props.Date.point)
+	                        ), 
+	                        React.createElement("p", null, 
+	                            React.createElement("span", null, "生长势："), 
+	                            React.createElement("span", null, this.props.Date.szs)
+	                        ), 
+	                        React.createElement("p", null, this.props.Date.summary)
+	                    )
+	                )
+	            )
+	        )
+	    },
+	    HandleClick:function () {
+	        $("#pic-wrap").find(".pic-wrap").remove();
+	    },
+	    componentDidMount:function () {
+	        $(".pic-list").owlCarousel({
+	            items:1,
+	            nav:true,
+	            navText:"",
+	            loop:true
+	        });
+	    }
+	});
+
+	module.exports=TreePic;
+
+/***/ },
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(35);
+	var Img = React.createClass({displayName: "Img",
+	    render:function () {
+	        return(
+	            React.createElement("img", {src: this.props.src, alt: ""})
+	        )
+	    }
+	});
+	module.exports = Img;
+
+/***/ },
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2);
@@ -31998,14 +32089,14 @@
 	module.exports = NoDate;
 
 /***/ },
-/* 178 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2);
 	var ReactDOM = __webpack_require__(35);
-	var ResultItem = __webpack_require__(179);
+	var ResultItem = __webpack_require__(181);
 	//动画模块
-	var ReactCSSTransitionGroup = __webpack_require__(180);
+	var ReactCSSTransitionGroup = __webpack_require__(182);
 	var ResultList = React.createClass({displayName: "ResultList",
 	    render:function(){
 	        var List = [];
@@ -32024,7 +32115,7 @@
 	module.exports = ResultList;
 
 /***/ },
-/* 179 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(2);
@@ -32049,13 +32140,13 @@
 	module.exports = ResultItem;
 
 /***/ },
-/* 180 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(181);
+	module.exports = __webpack_require__(183);
 
 /***/ },
-/* 181 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32075,8 +32166,8 @@
 
 	var React = __webpack_require__(3);
 
-	var ReactTransitionGroup = __webpack_require__(182);
-	var ReactCSSTransitionGroupChild = __webpack_require__(184);
+	var ReactTransitionGroup = __webpack_require__(184);
+	var ReactCSSTransitionGroupChild = __webpack_require__(186);
 
 	function createTransitionTimeoutPropValidator(transitionType) {
 	  var timeoutPropName = 'transition' + transitionType + 'Timeout';
@@ -32147,7 +32238,7 @@
 	module.exports = ReactCSSTransitionGroup;
 
 /***/ },
-/* 182 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32167,7 +32258,7 @@
 
 	var React = __webpack_require__(3);
 	var ReactInstanceMap = __webpack_require__(120);
-	var ReactTransitionChildMapping = __webpack_require__(183);
+	var ReactTransitionChildMapping = __webpack_require__(185);
 
 	var emptyFunction = __webpack_require__(13);
 
@@ -32399,7 +32490,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 183 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -32508,7 +32599,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 184 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -32527,8 +32618,8 @@
 	var React = __webpack_require__(3);
 	var ReactDOM = __webpack_require__(36);
 
-	var CSSCore = __webpack_require__(185);
-	var ReactTransitionEvents = __webpack_require__(186);
+	var CSSCore = __webpack_require__(187);
+	var ReactTransitionEvents = __webpack_require__(188);
 
 	var onlyChild = __webpack_require__(34);
 
@@ -32680,7 +32771,7 @@
 	module.exports = ReactCSSTransitionGroupChild;
 
 /***/ },
-/* 185 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -32807,7 +32898,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 186 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
