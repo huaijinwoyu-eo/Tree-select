@@ -320,7 +320,7 @@ body{
 
 .vote-info .vote-btn input[type=radio]{
     height: 25px;
-    width: 50%;
+    width: 100%;
     position: absolute;
     display: block;
     z-index: 100;
@@ -343,6 +343,12 @@ body{
 }
 .vote-btn input[type=radio]:checked ~ div.state2{
     left: 0;
+}
+.vote-info .vote-btn input[type=radio].check:checked{
+    z-index: 99;
+}
+.vote-info .vote-btn input[type=radio].uncheck:checked{
+    z-index: 99;
 }
 .vote-info .vote-btn input[type=radio].check:checked ~ div.btn{
     left: 75px;
@@ -375,7 +381,7 @@ body{
     border-radius:100%;
     color: #ffffff;
     text-align: center;
-    line-height: 50px;
+    line-height: 45px;
     cursor: pointer;
     font-size: 30px;
 }

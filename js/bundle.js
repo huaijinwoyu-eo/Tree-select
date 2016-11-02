@@ -93,7 +93,7 @@
 	                var D_Height = $(document).height();
 	                var S_Height = $(window).innerHeight();
 	                $(window).scroll(function(){
-	                    if($(window).scrollTop()>1320 && $(window).scrollTop()<D_Height-S_Height){
+	                    if($(window).scrollTop()>1300 && $(window).scrollTop()<D_Height-S_Height-200){
 	                        $(".select-result").css({
 	                            position:"fixed",
 	                            bottom:"0"
@@ -32003,7 +32003,7 @@
 	        }
 	        return(
 	            React.createElement("div", {className: "pic-wrap"}, 
-	                React.createElement("div", {onClick: this.HandleClick, className: "close-btn"}, "X"), 
+	                React.createElement("div", {onClick: this.HandleClick, className: "close-btn"}, React.createElement("span", {className: "fa fa-close"})), 
 	                React.createElement("div", {className: "container"}, 
 	                    React.createElement("div", {className: "pic-list"}, 
 	                        Imgs
@@ -32126,7 +32126,7 @@
 	        return(
 	            React.createElement("div", {className: "item"}, 
 	                React.createElement("div", {className: "img"}, 
-	                    React.createElement("div", {"data-id": this.props.id, "data-name": this.props.name, className: "close", onClick: this.props.remove}, "X"), 
+	                    React.createElement("div", {"data-id": this.props.id, "data-name": this.props.name, className: "close fa fa-close", onClick: this.props.remove}), 
 	                    React.createElement("div", {className: "tag"}, "已选"), 
 	                    React.createElement("img", {src: this.props.src, alt: ""})
 	                ), 

@@ -9,7 +9,7 @@ var TreePic = React.createClass({
         }
         return(
             <div className="pic-wrap">
-                <div onClick={this.HandleClick} className="close-btn">X</div>
+                <div onClick={this.HandleClick} className="close-btn"><span className="fa fa-close"></span></div>
                 <div className="container">
                     <div className="pic-list">
                         {Imgs}

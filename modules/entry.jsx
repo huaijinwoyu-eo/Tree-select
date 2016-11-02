@@ -40,7 +40,7 @@ var Select = React.createClass({
                 var D_Height = $(document).height();
                 var S_Height = $(window).innerHeight();
                 $(window).scroll(function(){
-                    if($(window).scrollTop()>1320 && $(window).scrollTop()<D_Height-S_Height){
+                    if($(window).scrollTop()>1300 && $(window).scrollTop()<D_Height-S_Height-200){
                         $(".select-result").css({
                             position:"fixed",
                             bottom:"0"
